@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  db:
+    container_name: template
+    image: postgres:16.1
+    restart: always
+    environment:
+      POSTGRES_DB: example-db
+      POSTGRES_PASSWORD: 123456
+    ports:
+      - '5432:5432'
+
+  db-test:
+    container_name: template-test
+    image: postgres:16.1
+    restart: always
+    environment:
+      POSTGRES_DB: example-db-test
+      POSTGRES_PASSWORD: 123456
+    ports:
+      - '5433:5433'
+    expose:
+    - "5433"
+    command: -p 5433
