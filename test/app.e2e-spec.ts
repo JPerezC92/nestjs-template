@@ -1,10 +1,15 @@
 import type { INestApplication } from '@nestjs/common';
 import type { TestingModule } from '@nestjs/testing';
 import { Test } from '@nestjs/testing';
+import { StatusCodes } from 'http-status-codes';
+import { AppModule } from 'src/app.module';
 import request from 'supertest';
-import type { App } from 'supertest/types';
+import {
+	appConfig,
+	version1Config,
+} from 'test/shared/infrastructure/fixture/appConfig';
 
-import { AppModule } from '@/src/app.module';
+import { apiVersion1 } from '@/shared/infrastructure/utils/versioningConfig';
 
 describe('AppController (e2e)', () => {
 	let app: INestApplication;
@@ -14,14 +19,15 @@ describe('AppController (e2e)', () => {
 			imports: [AppModule],
 		}).compile();
 
-		app = moduleFixture.createNestApplication();
+		app = appConfig(moduleFixture, version1Config);
+
 		await app.init();
 	});
 
-	it('/ (GET)', async () => {
-		await request(app.getHttpServer() as App)
-			.get('/')
-			.expect(200)
+	it('/ (GET)', () => {
+		request(app.getHttpServer())
+			.get(apiVersion1())
+			.expect(StatusCodes.OK)
 			.expect('Hello World!');
 	});
 });

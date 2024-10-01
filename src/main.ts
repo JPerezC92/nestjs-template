@@ -1,24 +1,29 @@
 import { patchNestjsSwagger } from '@anatine/zod-nestjs';
 import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as swagger from '@nestjs/swagger';
+
+import { versioningConfig } from '@/shared/infrastructure/utils/versioningConfig';
 
 import { AppModule } from './app.module';
 
-async function bootstrap() {
+export async function bootstrap() {
 	const app = await NestFactory.create(AppModule);
 
-	const config = new DocumentBuilder()
-		.setTitle('Api example')
-		.setDescription('The API description')
+	app.enableVersioning(versioningConfig);
+
+	const config = new swagger.DocumentBuilder()
+		.setTitle('Store Manager API')
+		.setDescription('This is the API for the Store Manager application')
 		.setVersion('1.0')
+		.addBearerAuth()
 		.build();
 
 	patchNestjsSwagger();
 
-	const document = SwaggerModule.createDocument(app, config);
-	SwaggerModule.setup('docs', app, { ...document, openapi: '3.1.0' });
+	const document = swagger.SwaggerModule.createDocument(app, config);
+	swagger.SwaggerModule.setup('/docs', app, document);
 
 	await app.listen(8000);
 }
 
-bootstrap().catch(console.error);
+bootstrap();

@@ -1,32 +1,38 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 
-import { db } from '@/db/conexion';
-import { DomainError } from '@/shared/domain';
-import { mapExceptionToHttpError } from '@/shared/infrastructure/errors';
-import { UserCreator } from '@/users/application';
-import { UserEmailAlreadyRegisteredError } from '@/users/domain';
-import { userModelToEndpoint } from '@/users/infrastructure/adapters';
-import { prdUserRepository } from '@/users/infrastructure/repositories';
-import type * as userSchemas from '@/users/infrastructure/schemas';
+import { PrismaService } from '@/database/infrastructure/services/database.service';
+import { DomainError, ErrorCodesEnum } from '@/shared/domain/error/ErrorCodes';
+import { ExceptionMapper } from '@/shared/infrastructure/services/exceptionMapper.service';
+import { UserCreator } from '@/users/application/UserCreator';
+import type { UserNewProps } from '@/users/domain/model/User';
+import { userDomainToEndpoint } from '@/users/infrastructure/adapters/userDomainToEndpoint.adapter';
+
+import { SQLiteUsersRepository } from './SQLiteUsersRepository';
 
 @Injectable()
 export class UsersService {
-	async create(
-		userCreateDto: userSchemas.UserCreateDto,
-	): Promise<userSchemas.UserEndpointDto> {
-		const result = await db.transaction(
-			async db =>
-				await UserCreator(
-					prdUserRepository(db),
-					userModelToEndpoint,
-				).exec(userCreateDto),
+	constructor(
+		private readonly prismaService: PrismaService,
+		private readonly exceptionMapperService: ExceptionMapper,
+	) {}
+
+	async createUser(userNew: UserNewProps) {
+		const result = await this.prismaService.$transaction(
+			async (tx) =>
+				await new UserCreator(
+					new SQLiteUsersRepository(tx),
+					userDomainToEndpoint,
+				).execute(userNew),
 		);
 
-		if (!DomainError.isInstance(result)) return result;
+		if (!DomainError.isInstanceOf(result)) return result;
 
-		const httpError = mapExceptionToHttpError([
-			[UserEmailAlreadyRegisteredError.name, ConflictException],
-		]).find(result);
+		const httpError = this.exceptionMapperService.mapDomainErrorToHttpException(
+			result,
+			{
+				[ErrorCodesEnum.USER_EMAIL_ALREADY_EXISTS]: ConflictException,
+			},
+		);
 
 		throw httpError();
 	}

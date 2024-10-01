@@ -1,88 +1,73 @@
-<h1 align="center">
-  NestJS Template
-</h1>
-
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
-<div align="center">
-<a href="https://nestjs.com/">
-	<img src="https://img.shields.io/badge/NestJS-E0234E?style=for-the-badge&logo=nestjs&logoColor=white" alt="NestJS" />
-</a>
-<a href="https://www.typescriptlang.org/">
-	<img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
-</a>
-<a href="https://eslint.org/">
-	<img src="https://img.shields.io/badge/ESLint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white" alt="ESLint" />
-</a>
-<a href="https://prettier.io/">
-	<img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=white" alt="Prettier" />
-</a>
-<a href="https://pnpm.io/">
-	<img src="https://img.shields.io/badge/pnpm-0F111A?style=for-the-badge&logo=pnpm&logoColor=white" alt="pnpm" />
-</a>
 
-<p>
-Template for creating a NestJS app with TypeScript, ESLint, and Prettier. Pre-configured with Jest and supertest for testing. 
+[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
+[circleci-url]: https://circleci.com/gh/nestjs/nest
+
+  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+    <p align="center">
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
+<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
+<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
+<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
+<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
+<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
+  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
+    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
+  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
 </p>
-</div>
+  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
+  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## 🚀 Using this template
-1. Create your project based on this template:
-    - a) If you want to create a GitHub repository, we would recommend to use the GitHub "Use this template" button and clone your newly created repository
-    - b) If you don't want to create a GitHub repository, you can use the [degit](https://github.com/Rich-Harris/degit) tool to clone this repository without the Git history:
-        ```bash
-        npx degit JPerezC92/nestjs-template#main my-nextjs-app
-        ```
+## Description
 
-2. Start the app:
-    ```bash
-    cd my-nextjs-app    
-    pnpm install
-    pnpm start:dev
-    ```    
+[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-3. Start coding!
-
-## 🧪 Testing
-### Unit Testing
-This template uses [Jest](https://jestjs.io/) for unit testing. To run the tests:
-```bash
-pnpm test:watch
-```
-
-### E2E Testing
-This template uses [SuperTest](https://github.com/ladjs/supertest) for E2E testing. To run the tests:
+## Installation
 
 ```bash
-pnpm test:e2e
+$ pnpm install
 ```
 
-## 📦 Building for production
-To build the app for production:
+## Running the app
+
 ```bash
-pnpm build
-pnpm start:prod
+# development
+$ pnpm run start
+
+# watch mode
+$ pnpm run start:dev
+
+# production mode
+$ pnpm run start:prod
 ```
 
-## 🧹 Linting
-To lint the app:
+## Test
+
 ```bash
-pnpm lint
+# unit tests
+$ pnpm run test
+
+# e2e tests
+$ pnpm run test:e2e
+
+# test coverage
+$ pnpm run test:cov
 ```
 
-## 📝 Formatting
-To format the app:
-```bash
-pnpm format
-```
+## Support
 
-## 📚 Documentation
+Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-- [Nestjs](https://docs.nestjs.com/)
-- [TypeScript](https://www.typescriptlang.org/docs/)
-- [Zod](https://zod.dev)
-- [Jest](https://jestjs.io/docs/getting-started)
-- [SuperTest](https://github.com/ladjs/supertest)
-- [ESLint](https://eslint.org/docs/user-guide/getting-started)
-- [Prettier](https://prettier.io/docs/en/index.html)
+## Stay in touch
+
+- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
+- Website - [https://nestjs.com](https://nestjs.com/)
+- Twitter - [@nestframework](https://twitter.com/nestframework)
+
+## License
+
+Nest is [MIT licensed](LICENSE).

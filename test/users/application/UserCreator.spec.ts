@@ -1,51 +1,41 @@
-import { mock } from 'jest-mock-extended';
+import { mock } from 'vitest-mock-extended';
 
-import { UserMother } from '@/test/users/domain';
-import { UserCreator } from '@/users/application';
-import {
-	User,
-	UserEmailAlreadyRegisteredError,
-	type UsersRepository,
-} from '@/users/domain';
+import { rawAdapter } from '@/shared/application/adapter/raw.adapter';
+import { UserCreator } from '@/users/application/UserCreator';
+import { UserEmailAlreadyExistsError } from '@/users/domain/error/UserEmailAlreadyExistsError';
+import { User } from '@/users/domain/model/User';
+import type { UserRepository } from '@/users/domain/model/UserRepository';
+import { UserMoher } from '@/users/infrastructure/utils/UserMoher';
+import { UserNewMoher } from '@/users/infrastructure/utils/UserNewMoher';
 
-const mockUsersRepository = mock<UsersRepository>();
+const UsersMockRepository = mock<UserRepository>();
 
-describe('UserCreator', () => {
-	it('should create a new user', async () => {
-		// GIVEN
-		const newUser = UserMother.create();
+describe('UserCreator (Unit)', () => {
+	it('should create a user', async () => {
+		// Given
+		const userNew = await UserNewMoher.create();
+		const userCreator = new UserCreator(UsersMockRepository, rawAdapter);
 
-		const userNewProps = {
-			email: newUser.email,
-			password: newUser.password,
-		};
+		// When
+		const user = await userCreator.execute(userNew);
 
-		// WHEN
-		const result = await UserCreator(
-			mockUsersRepository,
-			result => result,
-		).exec(userNewProps);
-
-		// THEN
-		expect(result).toBeInstanceOf(User);
+		// Then
+		expect(user).toBeDefined();
+		expect(user).toBeInstanceOf(User);
 	});
 
 	it('should throw an error if the user already exists', async () => {
-		// GIVEN
-		const newUser = UserMother.create();
-		mockUsersRepository.findByEmail.mockResolvedValue(newUser);
-		const userNewProps = {
-			email: newUser.email,
-			password: newUser.password,
-		};
+		const userNew = await UserNewMoher.create();
+		const user = await UserMoher.create(userNew);
 
-		// WHEN
-		const result = await UserCreator(
-			mockUsersRepository,
-			result => result,
-		).exec(userNewProps);
+		// Given
+		const userCreator = new UserCreator(UsersMockRepository, rawAdapter);
+		UsersMockRepository.findByEmail.mockResolvedValue(user);
 
-		// THEN
-		expect(result).toBeInstanceOf(UserEmailAlreadyRegisteredError);
+		// When
+		const error = await userCreator.execute(userNew);
+
+		// Then
+		expect(error).toBeInstanceOf(UserEmailAlreadyExistsError);
 	});
 });
